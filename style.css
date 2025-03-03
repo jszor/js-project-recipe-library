@@ -30,7 +30,14 @@ h3 {
   padding: 0.5rem;
 }
 
-button {
+.filters-buttons, .sorting-buttons {
+  margin: 1.2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.filter-button, .sorting-button {
   color: #0418A4;
   font-size: 0.8rem;
   font-weight: 600;
@@ -41,19 +48,22 @@ button {
   border: 2px solid #0417a400;
 }
 
-.filters-buttons, .sorting-buttons {
-  margin: 1.2rem;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.filters-buttons button {
+.filter-button {
   background-color: #CCFFE2;
 }
 
-.sorting-buttons button {
+.sorting-button {
   background-color: #FFECEA;
+}
+
+.active-filter {
+  background-color: #0418A4;
+  color: #FFFFFF;
+}
+
+.active-sorting {
+  background-color: #FF6589;
+  color: #FFFFFF;
 }
 
 button:hover {
