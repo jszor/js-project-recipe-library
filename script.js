@@ -38,23 +38,32 @@ const selectSorting = (button) => {
 
   let buttonText = button.innerText.split(" ")[0];
 
-  sortButtons.forEach(button => {
-    button.classList.remove("active-sorting");
-  })
+  sortButtons.forEach(btn => {
+    let btnText = btn.innerText.split(" ")[0];
+
+    if (btn !== button) {
+    btn.innerText = btnText + sortingEmojis[0];
+    sortStates[btnText] = 0;
+    btn.classList.remove("active-sorting");
+    }
+
+  });
 
   if (sortStates[buttonText] === 0) {
     sortStates[buttonText] = 1;
     button.innerText = buttonText + sortingEmojis[1];
+    button.classList.add("active-sorting");
   } else if (sortStates[buttonText] === 1) {
     sortStates[buttonText] = 2;
     button.innerText = buttonText + sortingEmojis[2];
   } else {
     sortStates[buttonText] = 0;
     button.innerText = buttonText + sortingEmojis[0];
+    button.classList.remove("active-sorting");
   }
 
-  if (sortStates[buttonText] !== 0) {
-    button.classList.add("active-sorting");
-  }
+  // if (sortStates[buttonText] !== 0) {
+  //   button.classList.add("active-sorting");
+  // }
 
 }
