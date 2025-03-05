@@ -62,8 +62,4 @@ const selectSorting = (button) => {
     button.classList.remove("active-sorting");
   }
 
-  // if (sortStates[buttonText] !== 0) {
-  //   button.classList.add("active-sorting");
-  // }
-
 }
