@@ -20,18 +20,19 @@ h1 {
 h2 {
   color: #0418A4;
   font-size: 1.5rem;
-  margin: 1.67rem;
+  margin: 1.5rem;
 }
 
 h3 {
   color: black;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 600;
   padding: 0.5rem;
+  text-align: center;
 }
 
 .filters-buttons, .sorting-buttons {
-  margin: 1.2rem;
+  margin: 1.25rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -39,12 +40,12 @@ h3 {
 
 .filter-button, .sorting-button {
   color: #0418A4;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  padding: 0.7rem 1.3rem;
-  margin: 0.2rem;
+  padding: 0.75rem 1.25rem;
+  margin: 0.125rem;
   border-radius: 25px;
-  width: 8rem;
+  width: 8.5rem;
   border: 2px solid #0417a400;
 }
 
@@ -85,7 +86,7 @@ button:hover {
   margin: 1rem;
   border: 2px solid silver;
   border-radius: 17px;
-  padding-bottom: 0.7rem;
+  padding-bottom: 0.75rem;
 }
 
 .recipe-card:hover {
@@ -105,7 +106,7 @@ hr {
   height: 1px;
   width: 50%;
   background-color: silver;
-  margin: 0.3rem;
+  margin: 0.25rem;
 }
 
 .ingredient-list {
