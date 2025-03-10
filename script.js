@@ -1,4 +1,4 @@
-// Recipes data
+// Recipe data
 
 const allRecipes = [
   {
@@ -9,7 +9,7 @@ const allRecipes = [
     servings: 4,
     sourceUrl: "https://example.com/vegan-lentil-soup",
     diets: ["vegan"],
-    cuisine: "Mediterranean",
+    cuisine: "Mexican",
     ingredients: [
       "red lentils",
       "carrots",
@@ -55,7 +55,7 @@ const allRecipes = [
     servings: 3,
     sourceUrl: "https://example.com/gluten-free-chicken-stir-fry",
     diets: ["gluten-free"],
-    cuisine: "Asian",
+    cuisine: "Thai",
     ingredients: [
       "chicken breast",
       "broccoli",
@@ -81,7 +81,7 @@ const allRecipes = [
     servings: 2,
     sourceUrl: "https://example.com/dairy-free-tacos",
     diets: ["dairy-free"],
-    cuisine: "Mexican",
+    cuisine: "Japanese",
     ingredients: [
       "corn tortillas",
       "ground beef",
@@ -101,7 +101,7 @@ const allRecipes = [
     servings: 4,
     sourceUrl: "https://example.com/middle-eastern-hummus",
     diets: ["vegan", "gluten-free"],
-    cuisine: "Middle Eastern",
+    cuisine: "Indian",
     ingredients: [
       "chickpeas",
       "tahini",
@@ -120,7 +120,7 @@ const allRecipes = [
     servings: 1,
     sourceUrl: "https://example.com/quick-avocado-toast",
     diets: ["vegan"],
-    cuisine: "Mediterranean",
+    cuisine: "Italian",
     ingredients: [
       "bread",
       "avocado",
@@ -138,7 +138,7 @@ const allRecipes = [
     servings: 5,
     sourceUrl: "https://example.com/beef-stew",
     diets: [],
-    cuisine: "European",
+    cuisine: "Italian",
     ingredients: [
       "beef chunks",
       "potatoes",
@@ -162,15 +162,15 @@ const allRecipes = [
   }
 ];
 
-// Display recipes
+// Display all recipes or filtered recipes
 
-const recipeGrid = document.querySelector(".recipe-grid-container");
-
-const loadAllRecipes = () => {
+const loadAllRecipes = (recipes = allRecipes) => {
   
+  const recipeGrid = document.querySelector(".recipe-grid-container");
+
   recipeGrid.innerHTML = "";
 
-  allRecipes.forEach(recipe => {
+    recipes.forEach(recipe => {
     const recipeCard = document.createElement("div");
     recipeCard.classList.add("recipe-card");
 
@@ -192,31 +192,55 @@ const loadAllRecipes = () => {
   });
 };
 
-window.addEventListener("DOMContentLoaded", loadAllRecipes);
+window.addEventListener("DOMContentLoaded", () => {
+  loadAllRecipes();
+});
 
-// Filter button selection logic
+// Filter button logic
 
 const filterButtons = Array.from(document.getElementsByClassName("filter-button"));
 const allFoodButton = document.getElementById("all-button");
+const activeFilters = [];
 
 filterButtons.forEach(button => {
   button.addEventListener("click", () => selectFilter(button));
 });
 
 const selectFilter = (button) => {
+  const cuisine = button.innerText;
+
   if (button === allFoodButton) {
+    activeFilters.length = 0;
     filterButtons.forEach(button => button.classList.remove("active-filter"));
     allFoodButton.classList.add("active-filter");
   } else {
     allFoodButton.classList.remove("active-filter");
+
+    if (button.classList.contains("active-filter")) {
+      button.classList.remove("active-filter");
+      // Remove the filter from the array
+      const index = activeFilters.indexOf(cuisine);
+      if (index > -1) activeFilters.splice(index, 1);
+    } else {
+      button.classList.add("active-filter");
+      activeFilters.push(cuisine);
+    }
   }
 
-  if (button.classList.contains("active-filter") && button !== allFoodButton) {
-    button.classList.remove("active-filter");
-  } else {
-    button.classList.add("active-filter");
-  }
+  applyFilters();
 };
+
+const applyFilters = () => {
+  let filteredRecipes = allRecipes;
+
+  if (activeFilters.length > 0) {
+    filteredRecipes = allRecipes.filter(recipe => 
+      activeFilters.includes(recipe.cuisine)
+    );
+  }
+
+  loadAllRecipes(filteredRecipes);
+}
 
 // Sort button selection logic
 
