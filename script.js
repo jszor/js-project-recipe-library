@@ -282,5 +282,43 @@ const selectSorting = (button) => {
     button.classList.remove("active-sorting");
   }
 
+  applySorting();
 };
 
+const sortByPopularity = (recipes, order) => {
+  return recipes.sort((a, b) => {
+    if (order === 1) {
+      return a.popularity - b.popularity;
+    } else if (order === 2) {
+      return b.popularity - a.popularity;
+    } else {
+      return 0;
+    }
+  });
+};
+
+const sortByTime = (recipes, order) => {
+  return recipes.sort((a, b) => {
+    if (order === 1) {
+      return a.readyInMinutes - b.readyInMinutes;
+    } else if (order === 2) {
+      return b.readyInMinutes - a.readyInMinutes;
+    } else {
+      return 0;
+    }
+  });
+};
+
+const applySorting = () => {
+  let sortedRecipes = activeFilters.length > 0
+  ? allRecipes.filter(recipe => activeFilters.includes(recipe.cuisine))
+  : allRecipes;
+
+  if (sortStates["Popularity"] > 0) {
+    sortedRecipes = sortByPopularity(sortedRecipes, sortStates["Popularity"]);
+  } else if (sortStates["Time"] > 0) {
+    sortedRecipes = sortByTime(sortedRecipes, sortStates["Time"]);
+  }
+
+  loadAllRecipes(sortedRecipes);
+}
