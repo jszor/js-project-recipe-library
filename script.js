@@ -162,6 +162,23 @@ const allRecipes = [
   }
 ];
 
+// Accordion menu logic
+
+const setupToggle = (titleSelector, buttonsSelector) => {
+  const title = document.querySelector(titleSelector);
+  const buttons = document.querySelector(buttonsSelector);
+  const arrow = title.querySelector(".toggle-arrow");
+
+  title.addEventListener("click", () => {
+    buttons.classList.toggle("toggle-hidden");
+    arrow.classList.toggle("rotated");
+  });
+};
+
+setupToggle(".filters-title", ".filters-buttons");
+setupToggle(".sorting-title", ".sorting-buttons");
+setupToggle(".surprise-title", ".random-buttons");
+
 // Display all recipes or filtered recipes
 
 const loadAllRecipes = (recipes = allRecipes) => {
