@@ -1,167 +1,3 @@
-// Recipe data
-
-const allRecipes = [
-  {
-    id: 1,
-    title: "Vegan Lentil Soup",
-    image: "./assets/ramen.jpg",
-    readyInMinutes: 30,
-    servings: 4,
-    sourceUrl: "https://example.com/vegan-lentil-soup",
-    diets: ["vegan"],
-    cuisine: "Mexican",
-    ingredients: [
-      "red lentils",
-      "carrots",
-      "onion",
-      "garlic",
-      "tomato paste",
-      "cumin",
-      "paprika",
-      "vegetable broth",
-      "olive oil",
-      "salt"
-    ],
-    pricePerServing: 2.5,
-    popularity: 85
-  },
-  {
-    id: 2,
-    title: "Vegetarian Pesto Pasta",
-    image: "./assets/ramen.jpg",
-    readyInMinutes: 25,
-    servings: 2,
-    sourceUrl: "https://example.com/vegetarian-pesto-pasta",
-    diets: ["vegetarian"],
-    cuisine: "Italian",
-    ingredients: [
-      "pasta",
-      "basil",
-      "parmesan cheese",
-      "garlic",
-      "pine nuts",
-      "olive oil",
-      "salt",
-      "black pepper"
-    ],
-    pricePerServing: 3.0,
-    popularity: 92
-  },
-  {
-    id: 3,
-    title: "Gluten-Free Chicken Stir-Fry",
-    image: "./assets/ramen.jpg",
-    readyInMinutes: 20,
-    servings: 3,
-    sourceUrl: "https://example.com/gluten-free-chicken-stir-fry",
-    diets: ["gluten-free"],
-    cuisine: "Thai",
-    ingredients: [
-      "chicken breast",
-      "broccoli",
-      "bell pepper",
-      "carrot",
-      "soy sauce (gluten-free)",
-      "ginger",
-      "garlic",
-      "sesame oil",
-      "cornstarch",
-      "green onion",
-      "sesame seeds",
-      "rice"
-    ],
-    pricePerServing: 4.0,
-    popularity: 78
-  },
-  {
-    id: 4,
-    title: "Dairy-Free Tacos",
-    image: "./assets/ramen.jpg",
-    readyInMinutes: 15,
-    servings: 2,
-    sourceUrl: "https://example.com/dairy-free-tacos",
-    diets: ["dairy-free"],
-    cuisine: "Japanese",
-    ingredients: [
-      "corn tortillas",
-      "ground beef",
-      "taco seasoning",
-      "lettuce",
-      "tomato",
-      "avocado"
-    ],
-    pricePerServing: 2.8,
-    popularity: 88
-  },
-  {
-    id: 5,
-    title: "Middle Eastern Hummus",
-    image: "./assets/ramen.jpg",
-    readyInMinutes: 10,
-    servings: 4,
-    sourceUrl: "https://example.com/middle-eastern-hummus",
-    diets: ["vegan", "gluten-free"],
-    cuisine: "Indian",
-    ingredients: [
-      "chickpeas",
-      "tahini",
-      "garlic",
-      "lemon juice",
-      "olive oil"
-    ],
-    pricePerServing: 1.5,
-    popularity: 95
-  },
-  {
-    id: 6,
-    title: "Quick Avocado Toast",
-    image: "./assets/ramen.jpg",
-    readyInMinutes: 5,
-    servings: 1,
-    sourceUrl: "https://example.com/quick-avocado-toast",
-    diets: ["vegan"],
-    cuisine: "Italian",
-    ingredients: [
-      "bread",
-      "avocado",
-      "lemon juice",
-      "salt"
-    ],
-    pricePerServing: 2.0,
-    popularity: 90
-  },
-  {
-    id: 7,
-    title: "Beef Stew",
-    image: "./assets/ramen.jpg",
-    readyInMinutes: 90,
-    servings: 5,
-    sourceUrl: "https://example.com/beef-stew",
-    diets: [],
-    cuisine: "Italian",
-    ingredients: [
-      "beef chunks",
-      "potatoes",
-      "carrots",
-      "onion",
-      "garlic",
-      "tomato paste",
-      "beef broth",
-      "red wine",
-      "bay leaves",
-      "thyme",
-      "salt",
-      "black pepper",
-      "butter",
-      "flour",
-      "celery",
-      "mushrooms"
-    ],
-    pricePerServing: 5.5,
-    popularity: 80
-  }
-];
-
 // Accordion menu logic
 
 const setupToggle = (titleSelector, buttonsSelector) => {
@@ -181,36 +17,77 @@ setupToggle(".surprise-title", ".random-buttons");
 
 // Display all recipes or filtered recipes
 
+let allRecipes = [];
+
 const loadAllRecipes = (recipes = allRecipes) => {
   
   const recipeGrid = document.querySelector(".recipe-grid-container");
 
   recipeGrid.innerHTML = "";
 
-    recipes.forEach(recipe => {
-    const recipeCard = document.createElement("div");
-    recipeCard.classList.add("recipe-card");
+  const filteredRecipes = recipes.filter(recipe => recipe.cuisine);
 
-    recipeCard.innerHTML = `
-    <img src="${recipe.image}" alt="${recipe.title}">
-    <h3>${recipe.title}</h3>
-    <hr>
-    <p>Cuisine: ${recipe.cuisine}</p>
-    <p>Time: ${recipe.readyInMinutes}</p>
-    <hr>
-    <p>Ingredients:</p>
-    <ul class="ingredient-list">
-      ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join("")}
-    </ul>
-    `;
+    filteredRecipes.forEach(recipe => {
+      const recipeCard = document.createElement("div");
+      recipeCard.classList.add("recipe-card");
 
-    recipeGrid.appendChild(recipeCard);
+      recipeCard.innerHTML = `
+      <img src="${recipe.image}" alt="${recipe.title}">
+      <h3>${recipe.title}</h3>
+      <hr>
+      <p>Cuisine: ${recipe.cuisine}</p>
+      <p>Time: ${recipe.readyInMinutes}</p>
+      <hr>
+      <p>Ingredients:</p>
+      <ul class="ingredient-list">
+        ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join("")}
+      </ul>
+      `;
+
+      recipeGrid.appendChild(recipeCard);
 
   });
 };
 
+// Fetch recipes
+
+const fetchRecipes = async () => {
+  const apiKey = "2dc58147eaeb4d3bbaefc623ddc286b5";
+  const url = `https://api.spoonacular.com/recipes/complexSearch?number=20&apiKey=${apiKey}&fillIngredients=true&addRecipeInformation=true&cuisine=mexican,italian,thai,indian,japanese`;
+
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const formattedRecipes = data.results.map(recipe => {
+      const matchedCuisine = recipe.cuisines.find(cuisine => 
+        ["mexican", "italian", "thai", "indian", "japanese"].includes(cuisine.toLowerCase())
+      );
+
+      return {
+        id: recipe.id,
+        sourceURL: recipe.sourceURL,
+        title: recipe.title,
+        image: recipe.image,
+        readyInMinutes: recipe.readyInMinutes,
+        ingredients: recipe.extendedIngredients.map(ingredient => ingredient.name),
+        popularity: recipe.spoonacularScore,
+        cuisine: matchedCuisine || "Unknown",
+      };
+
+    });
+
+    allRecipes = formattedRecipes;
+    loadAllRecipes(allRecipes);
+
+  } catch (error) {
+    console.error("Error fetching recipes:", error);
+  }
+};
+
 window.addEventListener("DOMContentLoaded", () => {
-  loadAllRecipes();
+  fetchRecipes();
 });
 
 // Filter button logic
