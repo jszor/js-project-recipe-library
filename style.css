@@ -163,8 +163,47 @@ li {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  h3 {
-    padding-left: 0;
+  .options-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
   }
 
+  .filters {
+    grid-column: 1 / 3;
+  }
+
+  .sorting {
+    grid-column: 1;
+  }
+
+  .surprise {
+    grid-column: 2;
+  }
 }
+
+@media screen and (min-width: 1300px) {
+  .options-container {
+    display: grid;
+    grid-template-columns: 50% 20% 30%;
+  }
+
+  .filters {
+    grid-column: 1;
+  }
+
+  .sorting {
+    grid-column: 2;
+  }
+
+  .surprise {
+    grid-column: 3;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .options-container {
+    display: flex;
+  }
+}
+
