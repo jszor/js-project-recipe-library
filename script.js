@@ -55,7 +55,6 @@ const fetchRecipes = async () => {
   const apiKey = "2dc58147eaeb4d3bbaefc623ddc286b5";
   const url = `https://api.spoonacular.com/recipes/complexSearch?number=20&apiKey=${apiKey}&fillIngredients=true&addRecipeInformation=true&cuisine=mexican,italian,thai,indian,japanese`;
 
-
   try {
     const response = await fetch(url);
     const data = await response.json();
