@@ -15,7 +15,7 @@ setupToggle(".filters-title", ".filters-buttons");
 setupToggle(".sorting-title", ".sorting-buttons");
 setupToggle(".surprise-title", ".random-buttons");
 
-// Display all recipes or filtered recipes
+// Display recipes
 
 let allRecipes = [];
 
@@ -135,7 +135,7 @@ const applyFilters = () => {
   loadAllRecipes(filteredRecipes);
 }
 
-// Sort button selection logic
+// Sort button logic
 
 const sortButtons = Array.from(document.getElementsByClassName("sorting-button"));
 const sortStates = {};
@@ -215,3 +215,48 @@ const applySorting = () => {
 
   loadAllRecipes(sortedRecipes);
 }
+
+// Random button logic
+
+const randomButton = document.getElementById("random-button");
+
+const fetchRandomRecipe = async () => {
+
+  const apiKey = "2dc58147eaeb4d3bbaefc623ddc286b5";
+  const url = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=1`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    const recipe = data.recipes[0];
+
+    if (!recipe) {
+      console.error("No recipe found");
+      return;
+    }
+
+    const matchedCuisine = recipe.cuisines.find(cuisine => 
+      ["Mexican", "Italian", "Thai", "Indian", "Japanese"].includes(cuisine)
+    );
+
+    const formattedRecipe = [{
+      id: recipe.id,
+      sourceURL: recipe.sourceURL,
+      title: recipe.title,
+      image: recipe.image,
+      readyInMinutes: recipe.readyInMinutes,
+      ingredients: recipe.extendedIngredients.map(ing => ing.name),
+      popularity: recipe.spoonacularScore,
+      cuisine: matchedCuisine || "Unknown",
+    }];
+
+    loadAllRecipes(formattedRecipe);
+  }
+
+  catch (error) {
+    console.error("Error fetching random recipe:", error);
+  }
+};
+
+randomButton.addEventListener("click", fetchRandomRecipe);
+
