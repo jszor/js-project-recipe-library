@@ -90,8 +90,6 @@ button:hover {
   border: 2px solid silver;
   border-radius: 17px;
   padding-bottom: 0.75rem;
-  max-height: 38rem;
-  overflow: auto;
 }
 
 .recipe-card:hover {
