@@ -27,24 +27,29 @@ const loadAllRecipes = (recipes = allRecipes) => {
 
   const filteredRecipes = recipes.filter(recipe => recipe.cuisine);
 
-    filteredRecipes.forEach(recipe => {
-      const recipeCard = document.createElement("div");
-      recipeCard.classList.add("recipe-card");
+  if (filteredRecipes.length === 0) {
+    recipeGrid.innerHTML = `<p>No recipes found for the selected filters :(</p>`;
+    return;
+  }
 
-      recipeCard.innerHTML = `
-      <img src="${recipe.image}" alt="${recipe.title}">
-      <h3>${recipe.title}</h3>
-      <hr>
-      <p>Cuisine: ${recipe.cuisine}</p>
-      <p>Time: ${recipe.readyInMinutes}</p>
-      <hr>
-      <p>Ingredients:</p>
-      <ul class="ingredient-list">
-        ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join("")}
-      </ul>
-      `;
+  filteredRecipes.forEach(recipe => {
+    const recipeCard = document.createElement("div");
+    recipeCard.classList.add("recipe-card");
 
-      recipeGrid.appendChild(recipeCard);
+    recipeCard.innerHTML = `
+    <img src="${recipe.image}" alt="${recipe.title}">
+    <h3>${recipe.title}</h3>
+    <hr>
+    <p>Cuisine: ${recipe.cuisine}</p>
+    <p>Time: ${recipe.readyInMinutes}</p>
+    <hr>
+    <p>Ingredients:</p>
+    <ul class="ingredient-list">
+      ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join("")}
+    </ul>
+    `;
+
+    recipeGrid.appendChild(recipeCard);
 
   });
 };
@@ -57,6 +62,9 @@ const fetchRecipes = async () => {
 
   try {
     const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch: ${response.statusText}`);
+    }
     const data = await response.json();
 
     const formattedRecipes = data.results.map(recipe => {
@@ -82,6 +90,7 @@ const fetchRecipes = async () => {
 
   } catch (error) {
     console.error("Error fetching recipes:", error);
+    displayError();
   }
 };
 
@@ -111,7 +120,6 @@ const selectFilter = (button) => {
 
     if (button.classList.contains("active-filter")) {
       button.classList.remove("active-filter");
-      // Remove the filter from the array
       const index = activeFilters.indexOf(cuisine);
       if (index > -1) activeFilters.splice(index, 1);
     } else {
@@ -227,14 +235,12 @@ const fetchRandomRecipe = async () => {
 
   try {
     const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch: ${response.statusText}`);
+    }
     const data = await response.json();
     const recipe = data.recipes[0];
-
-    if (!recipe) {
-      console.error("No recipe found");
-      return;
-    }
-
+    
     const matchedCuisine = recipe.cuisines.find(cuisine => 
       ["Mexican", "Italian", "Thai", "Indian", "Japanese"].includes(cuisine)
     );
@@ -255,8 +261,15 @@ const fetchRandomRecipe = async () => {
 
   catch (error) {
     console.error("Error fetching random recipe:", error);
+    displayError();
   }
 };
 
 randomButton.addEventListener("click", fetchRandomRecipe);
 
+// Error display for the user
+
+const displayError = () => {
+  const recipeGrid = document.querySelector(".recipe-grid-container");
+  recipeGrid.innerHTML = `<p>Error: We are unable to fetch recipes at this time.</p>`;
+};
