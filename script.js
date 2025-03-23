@@ -279,5 +279,5 @@ randomButton.addEventListener("click", fetchRandomRecipe);
 
 const displayError = () => {
   const recipeGrid = document.querySelector(".recipe-grid-container");
-  recipeGrid.innerHTML = `<p class="error-message">Error: We are unable to fetch recipes at this time.</p>`;
+  recipeGrid.innerHTML += `<p class="error-message">Error: We are unable to fetch recipes at this time.</p>`;
 };
