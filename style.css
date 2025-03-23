@@ -150,6 +150,10 @@ li {
   transform: rotate(90deg);
 }
 
+.error-message {
+  margin: 2rem;
+}
+
 /* Media Queries */
 
 @media screen and (min-width: 600px) {

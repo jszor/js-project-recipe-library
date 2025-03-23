@@ -28,7 +28,7 @@ const loadAllRecipes = (recipes = allRecipes) => {
   const filteredRecipes = recipes.filter(recipe => recipe.cuisine);
 
   if (filteredRecipes.length === 0) {
-    recipeGrid.innerHTML = `<p>No recipes found for the selected filters :(</p>`;
+    recipeGrid.innerHTML = `<p class="error-message">No recipes found for the selected filters :(</p>`;
     return;
   }
 
@@ -271,5 +271,5 @@ randomButton.addEventListener("click", fetchRandomRecipe);
 
 const displayError = () => {
   const recipeGrid = document.querySelector(".recipe-grid-container");
-  recipeGrid.innerHTML = `<p>Error: We are unable to fetch recipes at this time.</p>`;
+  recipeGrid.innerHTML = `<p class="error-message">Error: We are unable to fetch recipes at this time.</p>`;
 };
