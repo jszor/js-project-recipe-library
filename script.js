@@ -63,6 +63,10 @@ const fetchRecipes = async () => {
   try {
     const response = await fetch(url);
     if (!response.ok) {
+      if (response.status === 402) {
+        const recipeGrid = document.querySelector(".recipe-grid-container");
+        recipeGrid.innerHTML = `<p class="error-message">Error: API call quota has been exceeded for the day.</p>`;
+      }
       throw new Error(`Failed to fetch: ${response.statusText}`);
     }
     const data = await response.json();
@@ -236,6 +240,10 @@ const fetchRandomRecipe = async () => {
   try {
     const response = await fetch(url);
     if (!response.ok) {
+      if (response.status === 402) {
+        const recipeGrid = document.querySelector(".recipe-grid-container");
+        recipeGrid.innerHTML = `<p class="error-message">Error: API call quota has been exceeded for the day.</p>`;
+      }
       throw new Error(`Failed to fetch: ${response.statusText}`);
     }
     const data = await response.json();
